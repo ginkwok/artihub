@@ -27,31 +27,31 @@ func main() {
 	router.Use(middleware.LoggerMiddleware(logger))
 	router.Use(middleware.MySQLMiddleware(db))
 
-	v1 := router.Group("/api/v1")
+	v1 := router.Group("api/v1")
 	{
-		articles := v1.Group("/articles")
+		articles := v1.Group("articles")
 		{
-			articles.GET("/", handler.GetAllArticlesHandler)
-			articles.GET("/:id", handler.GetArticleByIDHandler)
-			articles.POST("/", handler.CreateArticleHandler)
-			articles.PUT("/:id", handler.UpdateArticleHandler)
-			articles.DELETE("/:id", handler.DeleteArticleByIDHandler)
+			articles.GET("", handler.GetAllArticlesHandler)
+			articles.POST("", handler.CreateArticleHandler)
+			articles.GET(":article_id", handler.GetArticleByIDHandler)
+			articles.PUT(":article_id", handler.UpdateArticleHandler)
+			articles.DELETE(":article_id", handler.DeleteArticleByIDHandler)
 		}
-		authors := v1.Group("/authors")
+		authors := v1.Group("authors")
 		{
-			authors.GET("/", nil)
-			authors.GET("/:id", nil)
-			authors.POST("/", nil)
-			authors.PUT("/:id", nil)
-			authors.DELETE("/:id", nil)
+			authors.GET("", nil)
+			authors.POST("", nil)
+			authors.GET(":author_id", nil)
+			authors.PUT(":author_id", nil)
+			authors.DELETE(":author_id", nil)
 		}
-		tags := v1.Group("/tags")
+		tags := v1.Group("tags")
 		{
-			tags.GET("/", nil)
-			tags.GET("/:id", nil)
-			tags.POST("/", nil)
-			tags.PUT("/:id", nil)
-			tags.DELETE("/:id", nil)
+			tags.GET("", nil)
+			tags.POST("", nil)
+			tags.GET(":tag_id", nil)
+			tags.PUT(":tag_id", nil)
+			tags.DELETE(":tag_id", nil)
 		}
 	}
 	router.Run(":" + viper.GetString("server.port"))
